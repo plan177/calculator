@@ -25,7 +25,7 @@ func calc_arab(a int, b string, c int) string {
 	} else if b == "*" {
 		res = a * c
 	} else {
-		return "Указан некорректный оператор."
+		return "Вывод ошибки, так как строка не является математической операцией."
 	}
 	return strconv.Itoa(res)
 }
@@ -157,7 +157,7 @@ func calc_rim(a, b, c string) string {
 	x2 := rim[c]
 
 	if x1 == 0 || x2 == 0 {
-		return "Error"
+		return "Вывод ошибки, один из параметров не является римской цифрой."
 	}
 
 	if b == "-" && x1-x2 < 0 {
@@ -181,19 +181,22 @@ func calc_rim(a, b, c string) string {
 func main() {
 	fmt.Println("Введите данные:")
 
-	var a string
-	var b string
-	var c string
+	var a, b, c string
 
-	fmt.Scan(&a, &b, &c)
+	fmt.Scanln(&a, &b, &c)
 
+	// strconv.Atoi - функция проверяет является ли строка числовым значением.
+	// возвращает 2 значения: 1 - int, 2 - err (ошибка если она есть)
 	valA, errA := strconv.Atoi(a)
 	valC, errC := strconv.Atoi(c)
 
+	// проверяем a и с числами. если являются вызываем функцию calc_arab
+	// если a или с не являются числом, выводим ошибку
+	// иначе вызываем функцию calc_rim
 	if errA == nil && errC == nil {
 		fmt.Println(calc_arab(valA, b, valC))
 	} else if errA == nil && errC != nil || errA != nil && errC == nil {
-		fmt.Println("Введена херня!!! Попробуй еще...")
+		fmt.Println("Вывод ошибки, так как используются одновременно разные системы счисления.")
 	} else {
 		fmt.Println(calc_rim(a, b, c))
 	}
